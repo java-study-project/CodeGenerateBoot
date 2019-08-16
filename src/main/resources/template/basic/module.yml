@@ -1,0 +1,68 @@
+# 当前模板配置数据库规范：主键 = id，乐观锁=version, 删除标记=deleted
+# -----------------------------   模块参数    ----------------------------------------
+# 作者
+auth: "wulonghuai"
+# 模块名
+module: dataauth
+# 需要生成的表: all 代表table.yml中的全部表都生成
+openTables: [all]
+# 生成目录
+generateDirectory: "/Users/wulonghuai/github/CodeGenerateBoot/src/main/resources/generate"
+# 扩展参数
+extendParams:
+  # 是否第一次生成(过滤不包含业务的模板文件重复生成)
+  firstGenerateAble: true
+  # 通用国际化key前缀
+  i18nCloumnKey: "COLUMN"
+  orderByFiled: "op_time desc"
+  importExcel: false
+  exportExcel: false
+  WindowSelectAble: false
+  ComboAble: [sex, state, deleted]
+  QueryAble: [state, deleted]
+  DisableAble: [state, deleted]
+  ListHidden: [gmt_create, id, create_time, create_user, create_user_name, op_user, remark, attr1, attr2, attr3, attr4, version]
+  DetailHidden: [gmt_create, id, create_time, create_user, create_user_name, op_time, op_user, op_user_name, remark, attr1, attr2,attr3,attr4, version]
+  ChildHidden: [state, deleted]
+  baseField: [id, create_time, create_user, create_user_name, op_time, op_user, op_user_name, remark, attr1, attr2,attr3,attr4, version]
+  OpTimeAble: [ create_time, op_time, gmt_create, gmt_modified]
+  i18NCommonAble: [gmt_create, gmt_modified, state, deleted,system_status,status, id, create_time,create_user,create_user_name,op_time,op_user, op_user_name,remark,attr1,attr2,attr3,attr4,version]
+
+# -----------------------------   模板文件夹参数    ----------------------------------------
+# 单表模板文件夹
+singleTableTemplateDir: base,common,single
+# 带明细的主表模板文件夹
+mainTableTemplateDir: base,common,main
+# 明细表模板文件夹
+detailTableTemplateDir: base,detail
+
+# -----------------------------   模板参数格式参数    --------------------------------------
+# 第一级模板参数
+mainTemplateParam:
+  module: [auth, module, firstGenerateAble, i18nCloumnKey ]
+  table: [tableName, simpleName, mainSimpleName, refId, functionNo, orderByFiled, importExcel, exportExcel, WindowSelectAble, refNo]
+  tableMetadata: [tableComment]
+  # {l: "{", r: "}", crateDate:"yyyy年MM月dd日"}  // 常量参数说明
+# 模板参数fields数组项参数
+fieldsTemplateParam:
+  columnMetadata: [columnName, columnComment, dataType, characterMaximumLength, isNullable]
+
+# 扩展参数转换器（参数 -》 参数 + 扩展参数）
+extendParamConverter:
+  # [_TF:'驼峰', _class:'类规范', _LXX:'类小写', _LDX:'类大写', _en:'单词分隔', _i18n:'国际化key']
+  - converterName: stringExtend
+    mainTemplateParam: [tableName, simpleName, mainSimpleName, refId, refNo]
+    fieldsTemplateParam: [columnName]
+  # [_java:'java类型', _jdbc:'jdbc类型',_import:'java类型带包名', _isNum:'是否为数字类型', _isImport:'是否需要导入类']
+  - converterName: dbTypeExtend
+    fieldsTemplateParam: [dataType]
+  # 标记属性扩展[ComboAble, ListHidden, DetailHidden, baseField, OpTimeAble, i18NCommonAble]
+  - converterName: ableFlagExtend
+    fieldsTemplateParam: [columnName]
+    params: [ComboAble, ListHidden, DetailHidden, ChildHidden, baseField, OpTimeAble, DisableAble, i18NCommonAble]
+  # 带类型标记属性扩展[QueryAble, QueryAbleType]
+  # 查询条件带类型(all:全匹配, like:模糊匹配, range:范围查询, in:in查询)
+  # 例如配置为：QueryAble:[name-like], 则columnName=name的属性添加模板参数(QueryAble: true, QueryAbleType: like)
+  - converterName: ableFlagAndTypeExtend
+    fieldsTemplateParam: [columnName]
+    params: [QueryAble]

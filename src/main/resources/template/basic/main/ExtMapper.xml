@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scf.${module}.abilitydao.impl.${tableName_class}DaoImpl">
+
+<#if WindowSelectAble>
+	<!-- Select对象Map -->
+	<resultMap id="SelectResultMap" type="com.scf.${module}.dto.view.${tableName_class}SelectViewData"
+			extends="com.scf.${module}.abilitydao.impl.${tableName_class}DaoImpl.BaseResultMap">
+<#list details as detail>
+		<collection property="${detail.simpleName_TF}List" ofType="com.scf.${module}.domain.${detail.tableName_class}" column="{id=id}"
+					select="com.scf.${module}.abilitydao.impl.${detail.tableName_class}DaoImpl.selectByMainId"/>
+</#list>
+	</resultMap>
+
+	<!-- Select列表分页查询 -->
+	<select id="selectListPage" parameterType="java.util.Map" resultMap="SelectResultMap">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" /> from <include refid="table_name" />
+		<where>
+			deleted = 0 and <include refid="ext_condition_sql" />
+		</where>
+		order by ${orderByFiled}
+		limit #${l}pageFirst${r}, #${l}pageSize${r}
+	</select>
+
+	<!-- Select分页前，列表记录统计 -->
+	<select id="selectListPageCount" parameterType="java.util.Map" resultType="long">
+		select count(1) from <include refid="table_name" />
+		<where>
+			deleted = 0 and <include refid="ext_condition_sql" />
+		</where>
+	</select>
+
+	<!-- 查询条件抽取 -->
+	<sql id="ext_condition_sql">
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Clause" />
+			<bind name="bean" value="example.extendCriteria" />
+			<if test="bean != null">
+			</if>
+		</if>
+	</sql>
+</#if>
+</mapper>

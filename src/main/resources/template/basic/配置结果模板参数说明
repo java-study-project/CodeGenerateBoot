@@ -1,0 +1,50 @@
+{
+	tableName,	{"_TF", "_class", "_LXX", "_LDX", "_en", "_i18n"}
+	simpleName,	{"_TF", "_class", "_LXX", "_LDX", "_en", "_i18n"}
+	tableComment,
+	auth,
+	crateDate:"yyyy年MM月dd日"
+	module,
+	server,	{"_TF", "_class", "_LXX", "_LDX", "_en", "_i18n"}
+	serverCn,
+	orderByFiled,
+	importExcel,
+	exportExcel,
+	refId,	{"_TF", "_class", "_LXX", "_LDX", "_en", "_i18n"}
+	refNo, {"_TF", "_class", "_LXX", "_LDX", "_en", "_i18n"}
+	functionNo,
+	i18nCloumnKey,
+	l: "{",s
+	r: "
+	fields: [
+		{
+			columnName,	{"_TF", "_class", "_LXX", "_LDX", "_en", "_i18n"}
+			columnComment,
+			dataType,	{"_java", "_import", "_isNum", "_isImport"}
+			characterMaximumLength,
+			isNullable
+			ComboAble,
+			ListHidden,
+			DetailHidden,
+			baseField,
+			OpTimeAble,
+			i18NCommonAble,
+			QueryAble
+		}
+	]
+	details:[
+	    {detailJson}
+	    ......
+	]
+}
+// 模板语法
+// ${key}
+// <#list fields as item>${item.xxx}</#list>
+// <#list fields as item>...<#break></#list>
+// <#list fields as item><#if item_index = 0>...</#if></#list>
+// <#list fields as item><#if item_has_next>...</#if></#list>
+// <#list fields as item><#if !item_has_next>...</#if></#list>
+// <#if statement>...<#elseif statement>...<#else>...</#if>
+// <#list seq?chunk(4) as row> 分段处理
+<#list fields as item><#if !item.ListHidden><#if item.ComboAble><#if !item_has_next></#if></#if></#if></#list>
+${item.}

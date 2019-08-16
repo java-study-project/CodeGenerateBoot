@@ -1,0 +1,2 @@
+
+    <dubbo:reference id="${tableName_TF}ApiImpl"  interface="com.scf.${module}.api.I${tableName_class}Api" version="1.0.0" />

@@ -1,0 +1,2 @@
+
+    <dubbo:reference id="coreDataauthRuleScfApiImpl"  interface="com.scf.dataauth.api.ICoreDataauthRuleScfApi" version="1.0.0" />

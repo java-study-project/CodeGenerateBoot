@@ -1,0 +1,7 @@
+  '____________这里是${module}模块，${tableName}表的配置____________': '',
+  ${simpleName}_${tableName_i18n}: '${tableComment}',
+<#list fields as item>
+<#if !item.i18NCommonAble>
+  ${simpleName}_${item.columnName_i18n}: '${item.columnComment}',
+</#if>
+</#list>

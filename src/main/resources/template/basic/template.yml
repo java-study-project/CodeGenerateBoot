@@ -1,0 +1,93 @@
+Controller.java:
+  name:'${tableName_class}Controller.java'
+  path:'java/scf.${module}.controller/scf.${module}.backcontroller/src/main/java/com/scf/backcontroller/controller/${module}'
+  useAble:[firstGenerateAble]
+Api.java:
+  name:'I${tableName_class}Api.java'
+  path:'java/scf.${module}.business/scf.${module}.api/src/main/java/com/scf/${module}/api'
+  useAble:[firstGenerateAble]
+ApiImpl.java:
+  name:'${tableName_class}ApiImpl.java'
+  path:'java/scf.${module}.business/scf.${module}.api.impl/src/main/java/com/scf/${module}/api/impl'
+  useAble:[firstGenerateAble]
+Biz.java:
+  name:'I${tableName_class}Biz.java'
+  path:'java/scf.${module}.business/scf.${module}.business.interface/src/main/java/com/scf/${module}/service'
+  useAble:[firstGenerateAble]
+BizImpl.java:
+  name:'${tableName_class}BizImpl.java'
+  path:'java/scf.${module}.business/scf.${module}.business.impl/src/main/java/com/scf/${module}/service/impl'
+DbAbility.java:
+  name:'I${tableName_class}DbAbility.java'
+  path:'java/scf.${module}.business/scf.${module}.ability.interface/src/main/java/com/scf/${module}/ability'
+  useAble:[firstGenerateAble]
+DbAbilityImpl.java:
+  name:'${tableName_class}DbAbilityImpl.java'
+  path:'java/scf.${module}.business/scf.${module}.ability.impl/src/main/java/com/scf/${module}/ability/impl'
+  useAble:[firstGenerateAble]
+Dao.java:
+  name:'${tableName_class}Dao.java'
+  path:'java/scf.${module}.business/scf.${module}.ability.impl/src/main/java/com/scf/${module}/abilitydao'
+  useAble:[firstGenerateAble]
+DaoImpl.java:
+  name:'${tableName_class}DaoImpl.java'
+  path:'java/scf.${module}.business/scf.${module}.ability.impl/src/main/java/com/scf/${module}/abilitydao/impl'
+  useAble:[firstGenerateAble]
+Domain.java:
+  name:'${tableName_class}.java'
+  path:'java/scf.${module}.business/scf.${module}.domain/src/main/java/com/scf/${module}/domain'
+SaveData.java:
+  name:'${tableName_class}SaveData.java'
+  path:'java/scf.${module}.business/scf.${module}.domain/src/main/java/com/scf/${module}/dto/save'
+QueryData.java:
+  name:'${tableName_class}QueryData.java'
+  path:'java/scf.${module}.business/scf.${module}.domain/src/main/java/com/scf/${module}/dto/query'
+Mapper.xml:
+  name:'${tableName_class}.xml'
+  path:'java/scf.${module}.business/scf.${module}.ability.impl/src/main/resources/mapper'
+SelectViewData.java:
+  name:'${tableName_class}SelectViewData.java'
+  path:'java/scf.${module}.business/scf.${module}.domain/src/main/java/com/scf/${module}/dto/view'
+  useAble:[WindowSelectAble]
+ExtMapper.xml:
+  name:'${tableName_class}Ext.xml'
+  path:'java/scf.${module}.business/scf.${module}.ability.impl/src/main/resources/mapper'
+dubbo-api-consume.xml:
+  append:true
+  name:'dubbo-api-provider.xml'
+  path:'java'
+dubbo-api-provider.xml:
+  append:true
+  name:'dubbo-api-consume.xml'
+  path:'java'
+#----------------------------   web   --------------------------
+PageList.js:
+  name:'${simpleName_class}.js'
+  path:'web/src/pages/${module}/${simpleName_LXX}'
+PageDetail.js:
+  name:'${simpleName_class}Detail.js'
+  path:'web/src/pages/${module}/${simpleName_LXX}'
+ChildInfo.js:
+  name:'${simpleName_class}.js'
+  path:'web/src/pages/${module}/${mainSimpleName_LXX}'
+PageModels.js:
+  name:'${simpleName_LXX}.js'
+  path:'web/src/pages/${module}/${simpleName_LXX}/models'
+PageService.js:
+  name:'${simpleName_LXX}.js'
+  path:'web/src/services'
+  useAble:[firstGenerateAble]
+Router.js:
+  append:true
+  path:'web'
+  useAble:[firstGenerateAble]
+Menu.sql:
+  append:true
+  path:'web'
+  useAble:[firstGenerateAble]
+local_zh_CN.json:
+  append:true
+  path:'web'
+local_en.json:
+  append:true
+  path:'web'

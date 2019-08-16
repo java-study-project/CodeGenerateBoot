@@ -1,0 +1,12 @@
+# 主表配置（extendParams：可以再module中配置全局默认值）
+tables:
+# 规则组定义
+  - tableName: core_dataauth_rule_scf
+    simpleName: rule
+    extendParams:
+      QueryAble: []
+
+# 明细表配置
+detailTables:
+  # 规则明细配置
+  - {tableName: core_dataauth_rule_mapper_scf,          simpleName: ruleMapper,          mainTableName: core_dataauth_rule_scf, refId: rule_id}

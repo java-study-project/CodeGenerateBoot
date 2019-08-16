@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.generate.jdbc.dao.ColumnsDao">
+	<!-- 表字段员数据列表查询 -->
+	<select id="findPageByColumn" parameterType="com.code.generate.jdbc.metadata.Column" resultType="com.code.generate.jdbc.metadata.Column">
+		SELECT 
+		a.TABLE_CATALOG as tableCatalog,
+		a.TABLE_SCHEMA as tableSchema,
+		a.TABLE_NAME as tableName,
+		a.COLUMN_NAME as columnName,
+		a.ORDINAL_POSITION as ordinalPosition,
+		a.COLUMN_DEFAULT as columnDefault,
+		a.IS_NULLABLE as isNullable,
+		a.DATA_TYPE as dataType,
+		a.CHARACTER_MAXIMUM_LENGTH as characterMaximumLength,
+		a.CHARACTER_OCTET_LENGTH as characterOctetLength,
+		a.NUMERIC_PRECISION as numericPrecision,
+		a.NUMERIC_SCALE as numericScale,
+		a.DATETIME_PRECISION as datetimePrecision,
+		a.CHARACTER_SET_NAME as characterSetName,
+		a.COLLATION_NAME as collationName,
+		a.COLUMN_TYPE as columnType,
+		a.COLUMN_KEY as columnKey,
+		a.EXTRA as extra,
+		a.PRIVILEGES as privileges,
+		a.COLUMN_COMMENT as columnComment,
+		a.GENERATION_EXPRESSION as generationExpression
+		FROM information_schema.columns a
+		WHERE a.TABLE_SCHEMA = (select database())
+		<if test="bean.tableCatalog != null and bean.tableCatalog != '' ">  
+          AND a.TABLE_CATALOG = #{bean.tableCatalog}
+        </if>
+		<if test="bean.tableName != null and bean.tableName != '' ">  
+          AND a.TABLE_NAME = #{bean.tableName}
+        </if>
+		<if test="bean.columnName != null and bean.columnName != '' ">  
+          AND a.COLUMN_NAME = #{bean.columnName}
+        </if>
+		<if test="bean.ordinalPosition != null">  
+          AND a.ORDINAL_POSITION = #{bean.ordinalPosition}
+        </if>
+		<if test="bean.columnDefault != null and bean.columnDefault != '' ">  
+          AND a.COLUMN_DEFAULT = #{bean.columnDefault}
+        </if>
+		<if test="bean.isNullable != null and bean.isNullable != '' ">  
+          AND a.IS_NULLABLE = #{bean.isNullable}
+        </if>
+		<if test="bean.dataType != null and bean.dataType != '' ">  
+          AND a.DATA_TYPE = #{bean.dataType}
+        </if>
+		<if test="bean.characterMaximumLength != null">  
+          AND a.CHARACTER_MAXIMUM_LENGTH = #{bean.characterMaximumLength}
+        </if>
+		<if test="bean.characterOctetLength != null">  
+          AND a.CHARACTER_OCTET_LENGTH = #{bean.characterOctetLength}
+        </if>
+		<if test="bean.numericPrecision != null">  
+          AND a.NUMERIC_PRECISION = #{bean.numericPrecision}
+        </if>
+		<if test="bean.numericScale != null">  
+          AND a.NUMERIC_SCALE = #{bean.numericScale}
+        </if>
+		<if test="bean.datetimePrecision != null">  
+          AND a.DATETIME_PRECISION = #{bean.datetimePrecision}
+        </if>
+		<if test="bean.characterSetName != null and bean.characterSetName != '' ">  
+          AND a.CHARACTER_SET_NAME = #{bean.characterSetName}
+        </if>
+		<if test="bean.collationName != null and bean.collationName != '' ">  
+          AND a.COLLATION_NAME = #{bean.collationName}
+        </if>
+		<if test="bean.columnType != null and bean.columnType != '' ">  
+          AND a.COLUMN_TYPE = #{bean.columnType}
+        </if>
+		<if test="bean.columnKey != null and bean.columnKey != '' ">  
+          AND a.COLUMN_KEY = #{bean.columnKey}
+        </if>
+		<if test="bean.extra != null and bean.extra != '' ">  
+          AND a.EXTRA = #{bean.extra}
+        </if>
+		<if test="bean.privileges != null and bean.privileges != '' ">  
+          AND a.PRIVILEGES = #{bean.privileges}
+        </if>
+		<if test="bean.columnComment != null and bean.columnComment != '' ">  
+          AND a.COLUMN_COMMENT = #{bean.columnComment}
+        </if>
+		<if test="bean.generationExpression != null and bean.generationExpression != '' ">  
+          AND a.GENERATION_EXPRESSION = #{bean.generationExpression}
+        </if>
+		order by a.TABLE_NAME, a.ORDINAL_POSITION asc
+	</select>
+</mapper>

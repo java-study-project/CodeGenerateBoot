@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.generate.jdbc.dao.TableDao">
+	<!-- 表元数据列表查询 -->
+	<select id="findPageByTable" parameterType="com.code.generate.jdbc.metadata.Table" resultType="com.code.generate.jdbc.metadata.Table">
+		SELECT 
+		a.TABLE_CATALOG as tableCatalog,
+		a.TABLE_SCHEMA as tableSchema,
+		a.TABLE_NAME as tableName,
+		a.TABLE_TYPE as tableType,
+		a.ENGINE as engine,
+		a.VERSION as version,
+		a.ROW_FORMAT as rowFormat,
+		a.TABLE_ROWS as tableRows,
+		a.AVG_ROW_LENGTH as avgRowLength,
+		a.DATA_LENGTH as dataLength,
+		a.MAX_DATA_LENGTH as maxDataLength,
+		a.INDEX_LENGTH as indexLength,
+		a.DATA_FREE as dataFree,
+		a.AUTO_INCREMENT as autoIncrement,
+		a.CREATE_TIME as createTime,
+		a.UPDATE_TIME as updateTime,
+		a.CHECK_TIME as checkTime,
+		a.TABLE_COLLATION as tableCollation,
+		a.CHECKSUM as checksum,
+		a.CREATE_OPTIONS as createOptions,
+		a.TABLE_COMMENT as tableComment
+		FROM information_schema.tables a
+		WHERE a.TABLE_SCHEMA = (select database())
+		<if test="bean.tableCatalog != null and bean.tableCatalog != '' ">  
+          AND a.TABLE_CATALOG = #{bean.tableCatalog}
+        </if>
+		<if test="bean.tableSchema != null and bean.tableSchema != '' ">  
+          AND a.TABLE_SCHEMA = #{bean.tableSchema}
+        </if>
+		<if test="bean.tableName != null and bean.tableName != '' ">  
+          AND a.TABLE_NAME = #{bean.tableName}
+        </if>
+		<if test="bean.tableType != null and bean.tableType != '' ">  
+          AND a.TABLE_TYPE = #{bean.tableType}
+        </if>
+		<if test="bean.engine != null and bean.engine != '' ">  
+          AND a.ENGINE = #{bean.engine}
+        </if>
+		<if test="bean.version != null">  
+          AND a.VERSION = #{bean.version}
+        </if>
+		<if test="bean.rowFormat != null and bean.rowFormat != '' ">  
+          AND a.ROW_FORMAT = #{bean.rowFormat}
+        </if>
+		<if test="bean.tableRows != null">  
+          AND a.TABLE_ROWS = #{bean.tableRows}
+        </if>
+		<if test="bean.avgRowLength != null">  
+          AND a.AVG_ROW_LENGTH = #{bean.avgRowLength}
+        </if>
+		<if test="bean.dataLength != null">  
+          AND a.DATA_LENGTH = #{bean.dataLength}
+        </if>
+		<if test="bean.maxDataLength != null">  
+          AND a.MAX_DATA_LENGTH = #{bean.maxDataLength}
+        </if>
+		<if test="bean.indexLength != null">  
+          AND a.INDEX_LENGTH = #{bean.indexLength}
+        </if>
+		<if test="bean.dataFree != null">  
+          AND a.DATA_FREE = #{bean.dataFree}
+        </if>
+		<if test="bean.autoIncrement != null">  
+          AND a.AUTO_INCREMENT = #{bean.autoIncrement}
+        </if>
+		<if test="bean.createTime != null and bean.createTime != '' ">  
+          AND a.CREATE_TIME = #{bean.createTime}
+        </if>
+		<if test="bean.updateTime != null and bean.updateTime != '' ">  
+          AND a.UPDATE_TIME = #{bean.updateTime}
+        </if>
+		<if test="bean.checkTime != null and bean.checkTime != '' ">  
+          AND a.CHECK_TIME = #{bean.checkTime}
+        </if>
+		<if test="bean.tableCollation != null and bean.tableCollation != '' ">  
+          AND a.TABLE_COLLATION = #{bean.tableCollation}
+        </if>
+		<if test="bean.checksum != null">  
+          AND a.CHECKSUM = #{bean.checksum}
+        </if>
+		<if test="bean.createOptions != null and bean.createOptions != '' ">  
+          AND a.CREATE_OPTIONS = #{bean.createOptions}
+        </if>
+		<if test="bean.tableComment != null and bean.tableComment != '' ">  
+          AND a.TABLE_COMMENT = #{bean.tableComment}
+        </if>
+	</select>
+</mapper>

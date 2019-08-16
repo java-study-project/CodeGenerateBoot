@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scf.${module}.abilitydao.impl.${tableName_class}DaoImpl">
+
+	<!-- 
+		相关表：${tableName}：${tableComment} 增删改查能力mapping
+		开发人员：${auth} ${crateDate} add
+	-->
+	<sql id="table_name"> ${tableName} </sql>
+
+	<!-- ${tableComment}基本结果对象Map -->
+	<resultMap id="BaseResultMap" type="com.scf.${module}.domain.${tableName_class}">
+		<id column="id" property="id" jdbcType="VARCHAR" /><!-- 编号 -->
+<#list fields as item>
+	<#if item.columnName != "id">
+		<result column="${item.columnName}" property="${item.columnName_TF}" jdbcType="${item.dataType_jdbc}" /><!-- ${item.columnComment} -->
+	</#if>
+</#list>
+	</resultMap>
+
+	<!--用于动态生成sql所需的配置-->
+	<sql id="config">
+		<bind name="namespace" value="'com.scf.${module}.abilitydao.impl.${tableName_class}DaoImpl'"/>
+		<bind name="resultMapId" value="'BaseResultMap'"/>
+		<bind name="prefix" value="''"/>
+		<bind name="ignoreSetColumns" value="'create_time,op_time,version'"/>
+	</sql>
+
+		<!-- ${tableComment}字段信息 -->
+	<sql id="Base_Column_List">
+		<include refid="SqlBuilderMapper.buildSelectField" />
+	</sql>
+
+	<!-- 列表分页查询 -->
+	<select id="listPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+		order by ${orderByFiled} limit #${l}pageFirst${r}, #${l}pageSize${r}
+	</select>
+
+	<!-- 分页前，列表记录统计 -->
+	<select id="listPageCount" parameterType="java.util.Map" resultType="long">
+		select count(1) from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+	</select>
+
+	<!-- 列表查询 -->
+	<select id="listBy" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+		order by ${orderByFiled}
+	</select>
+
+	<!-- 根据主键查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		where id = #${l}id${r}
+	</select>
+
+	<!-- 根据主表ID 查询信息集合 -->
+	<select id="selectByMainId" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		where ${refId} = #${l}id${r}
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.scf.${module}.domain.${tableName_class}" >
+		<include refid="config"/>
+		insert into <include refid="table_name" />
+		(<include refid="SqlBuilderMapper.buildInsertFields" />, version)
+		values (<include refid="SqlBuilderMapper.buildInsertValueFields" />, 0)
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="batchInsert" >
+		<include refid="config"/><bind name="prefix" value="'bean'"/>
+		insert into <include refid="table_name" />
+		(<include refid="SqlBuilderMapper.buildInsertFields" />, version)
+		values
+		<foreach collection="list" item="bean" index="index" separator="," >
+			(<include refid="SqlBuilderMapper.buildInsertValueFields" />, 0)
+		</foreach>
+	</insert>
+
+	<!-- 根据主键修改记录，并校验乐观锁 -->
+	<update id="updateByPrimaryKey" parameterType="com.scf.${module}.domain.${tableName_class}">
+		<include refid="config"/>
+		update <include refid="table_name" />
+		set <include refid="SqlBuilderMapper.buildUpdateSetFields" />,
+		version = #${l}version${r}+1
+		where id = #${l}id${r} and version = #${l}version${r}
+	</update>
+
+	<!-- 根据主键批量删除记录 -->
+	<delete id="batchDeleteByIds" parameterType="java.util.Map">
+		delete from <include refid="table_name" /> where
+		<foreach collection="list" item="id" index="index" separator="or" > 
+ 			(id = #${l}id${r})
+		</foreach>
+	</delete>
+	
+	<!-- 根据主键删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from <include refid="table_name" /> where id = #${l}id${r}
+	</delete>
+
+	<!-- ${tableComment}根据关联主表id，批量删除 -->
+	<delete id="deleteByMainTableId" parameterType="java.lang.String">
+		delete from <include refid="table_name" /> where ${refId} = #${l}id${r}
+	</delete>
+
+	<!-- ${tableComment}根据关联主表id集合，批量删除  -->
+	<delete id="batchDeleteByMainTableIds" parameterType="java.util.Map">
+		delete from <include refid="table_name" /> where
+		<foreach collection="list" item="id" index="index" separator="or" >
+			(${refId} = #${l}id${r})
+		</foreach>
+	</delete>
+	<!-- 根据不为空column删除记录 -->
+	<delete id="batchDeleteByColumn" parameterType="java.util.Map">
+		delete from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+	</delete>
+		
+	<!-- 聚合函数（avg，min，max，sum，count）计算类 - 根据map参数条件 -->
+	<select id="aggregateLongBy" parameterType="java.util.Map" resultType="long">
+		select <include refid="com.scf.BaseMapper.Base_Aggregate_Column" />
+		from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+	</select>
+</mapper>

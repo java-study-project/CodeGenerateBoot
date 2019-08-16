@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scf.dataauth.abilitydao.impl.CoreDataauthRuleMapperScfDaoImpl">
+
+	<!-- 
+		相关表：core_dataauth_rule_mapper_scf：规则数据权限Mapper明细表 增删改查能力mapping
+		开发人员：wulonghuai 2019年08月16日 add
+	-->
+	<sql id="table_name"> core_dataauth_rule_mapper_scf </sql>
+
+	<!-- 规则数据权限Mapper明细表基本结果对象Map -->
+	<resultMap id="BaseResultMap" type="com.scf.dataauth.domain.CoreDataauthRuleMapperScf">
+		<id column="id" property="id" jdbcType="VARCHAR" /><!-- 编号 -->
+		<result column="rule_id" property="ruleId" jdbcType="VARCHAR" /><!-- 规则id -->
+		<result column="rule_name" property="ruleName" jdbcType="VARCHAR" /><!-- 规则名称 -->
+		<result column="dimension_type_id" property="dimensionTypeId" jdbcType="VARCHAR" /><!-- 维度类别id -->
+		<result column="dimension_type" property="dimensionType" jdbcType="VARCHAR" /><!-- 维度类别 -->
+		<result column="dimension_type_desc" property="dimensionTypeDesc" jdbcType="VARCHAR" /><!-- 维度描述 -->
+		<result column="table_prefix" property="tablePrefix" jdbcType="VARCHAR" /><!-- 表名前缀 -->
+		<result column="goal_field_no" property="goalFieldNo" jdbcType="VARCHAR" /><!-- 目标字段名称 -->
+		<result column="source_field_no" property="sourceFieldNo" jdbcType="VARCHAR" /><!-- 来源字段名称 -->
+		<result column="is_enable" property="isEnable" jdbcType="TINYINT" /><!-- 是否启用 -->
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" /><!-- 创建时间 -->
+		<result column="create_user" property="createUser" jdbcType="VARCHAR" /><!-- 创建用户 -->
+		<result column="create_user_name" property="createUserName" jdbcType="VARCHAR" /><!-- 创建用户名 -->
+		<result column="op_time" property="opTime" jdbcType="TIMESTAMP" /><!-- 修改时间 -->
+		<result column="op_user" property="opUser" jdbcType="VARCHAR" /><!-- 修改用户 -->
+		<result column="op_user_name" property="opUserName" jdbcType="VARCHAR" /><!-- 修改用户名 -->
+		<result column="remark" property="remark" jdbcType="VARCHAR" /><!-- 描述 -->
+		<result column="attr1" property="attr1" jdbcType="VARCHAR" /><!-- 备用字段1 -->
+		<result column="attr2" property="attr2" jdbcType="VARCHAR" /><!-- 备用字段2 -->
+		<result column="attr3" property="attr3" jdbcType="VARCHAR" /><!-- 备用字段3 -->
+		<result column="attr4" property="attr4" jdbcType="VARCHAR" /><!-- 备用字段4 -->
+		<result column="deleted" property="deleted" jdbcType="SMALLINT" /><!-- 是否删除 -->
+		<result column="version" property="version" jdbcType="INTEGER" /><!-- 乐观锁版本号 -->
+	</resultMap>
+
+	<!--用于动态生成sql所需的配置-->
+	<sql id="config">
+		<bind name="namespace" value="'com.scf.dataauth.abilitydao.impl.CoreDataauthRuleMapperScfDaoImpl'"/>
+		<bind name="resultMapId" value="'BaseResultMap'"/>
+		<bind name="prefix" value="''"/>
+		<bind name="ignoreSetColumns" value="'create_time,op_time,version'"/>
+	</sql>
+
+		<!-- 规则数据权限Mapper明细表字段信息 -->
+	<sql id="Base_Column_List">
+		<include refid="SqlBuilderMapper.buildSelectField" />
+	</sql>
+
+	<!-- 列表分页查询 -->
+	<select id="listPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+		order by op_time desc limit #{pageFirst}, #{pageSize}
+	</select>
+
+	<!-- 分页前，列表记录统计 -->
+	<select id="listPageCount" parameterType="java.util.Map" resultType="long">
+		select count(1) from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+	</select>
+
+	<!-- 列表查询 -->
+	<select id="listBy" resultMap="BaseResultMap" parameterType="java.util.Map">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+		order by op_time desc
+	</select>
+
+	<!-- 根据主键查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		where id = #{id}
+	</select>
+
+	<!-- 根据主表ID 查询信息集合 -->
+	<select id="selectByMainId" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="config"/>
+		select <include refid="Base_Column_List" />
+		from <include refid="table_name" />
+		where rule_id = #{id}
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="insert" parameterType="com.scf.dataauth.domain.CoreDataauthRuleMapperScf" >
+		<include refid="config"/>
+		insert into <include refid="table_name" />
+		(<include refid="SqlBuilderMapper.buildInsertFields" />, version)
+		values (<include refid="SqlBuilderMapper.buildInsertValueFields" />, 0)
+	</insert>
+	
+	<!-- 批量新增记录 -->
+	<insert id="batchInsert" >
+		<include refid="config"/><bind name="prefix" value="'bean'"/>
+		insert into <include refid="table_name" />
+		(<include refid="SqlBuilderMapper.buildInsertFields" />, version)
+		values
+		<foreach collection="list" item="bean" index="index" separator="," >
+			(<include refid="SqlBuilderMapper.buildInsertValueFields" />, 0)
+		</foreach>
+	</insert>
+
+	<!-- 根据主键修改记录，并校验乐观锁 -->
+	<update id="updateByPrimaryKey" parameterType="com.scf.dataauth.domain.CoreDataauthRuleMapperScf">
+		<include refid="config"/>
+		update <include refid="table_name" />
+		set <include refid="SqlBuilderMapper.buildUpdateSetFields" />,
+		version = #{version}+1
+		where id = #{id} and version = #{version}
+	</update>
+
+	<!-- 根据主键批量删除记录 -->
+	<delete id="batchDeleteByIds" parameterType="java.util.Map">
+		delete from <include refid="table_name" /> where
+		<foreach collection="list" item="id" index="index" separator="or" > 
+ 			(id = #{id})
+		</foreach>
+	</delete>
+	
+	<!-- 根据主键删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from <include refid="table_name" /> where id = #{id}
+	</delete>
+
+	<!-- 规则数据权限Mapper明细表根据关联主表id，批量删除 -->
+	<delete id="deleteByMainTableId" parameterType="java.lang.String">
+		delete from <include refid="table_name" /> where rule_id = #{id}
+	</delete>
+
+	<!-- 规则数据权限Mapper明细表根据关联主表id集合，批量删除  -->
+	<delete id="batchDeleteByMainTableIds" parameterType="java.util.Map">
+		delete from <include refid="table_name" /> where
+		<foreach collection="list" item="id" index="index" separator="or" >
+			(rule_id = #{id})
+		</foreach>
+	</delete>
+	<!-- 根据不为空column删除记录 -->
+	<delete id="batchDeleteByColumn" parameterType="java.util.Map">
+		delete from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+	</delete>
+		
+	<!-- 聚合函数（avg，min，max，sum，count）计算类 - 根据map参数条件 -->
+	<select id="aggregateLongBy" parameterType="java.util.Map" resultType="long">
+		select <include refid="com.scf.BaseMapper.Base_Aggregate_Column" />
+		from <include refid="table_name" />
+		<if test="example != null">
+			<include refid="SqlBuilderMapper.Example_Where_Clause" />
+		</if>
+	</select>
+</mapper>
